@@ -1,0 +1,146 @@
+<form #userForm="ngForm" style="padding-right: 5%; padding-left: 5%; ">
+	<div class="card" style="width: 100%;margin-top: 2rem;background-color:#edf2f6;border-radius: 10px; height: 70em; " >
+		<div class="card-header"><b>Mantenimiento de usuario</b></div>
+		<div class="card mb-4 mt-4">
+			<ul class="nav">
+				<button type="button" class="btn-toolbar" (click)="Submit()">
+					<a class="nav-link text-toolbar">
+						<span>
+							<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
+								<path
+									d="M11.6667 1H2.33333C1.59695 1 1 1.59695 1 2.33333V11.6667C1 12.403 1.59695 13 2.33333 13H11.6667C12.403 13 13 12.403 13 11.6667V2.33333C13 1.59695 12.403 1 11.6667 1Z"
+									stroke="#38E8C6"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+								<path d="M1 5H13" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
+								<path d="M5 13V5" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
+							</svg>
+						</span>
+						Guardar
+					</a>
+				</button>
+				<button type="button" class="btn-toolbar" (click)="resetForm()">
+					<a class="nav-link text-toolbar">
+						<span>
+							<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
+								<path
+									d="M11.6667 1H2.33333C1.59695 1 1 1.59695 1 2.33333V11.6667C1 12.403 1.59695 13 2.33333 13H11.6667C12.403 13 13 12.403 13 11.6667V2.33333C13 1.59695 12.403 1 11.6667 1Z"
+									stroke="#38E8C6"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+								<path d="M1 5H13" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
+								<path d="M5 13V5" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
+							</svg>
+						</span>
+						Limpiar
+					</a>
+				</button>
+				<button type="button" class="btn-toolbar" (click)="goBack()">
+					<a class="nav-link text-toolbar">
+						<span>
+							<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
+								<path
+									d="M11.6667 1H2.33333C1.59695 1 1 1.59695 1 2.33333V11.6667C1 12.403 1.59695 13 2.33333 13H11.6667C12.403 13 13 12.403 13 11.6667V2.33333C13 1.59695 12.403 1 11.6667 1Z"
+									stroke="#38E8C6"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								/>
+								<path d="M1 5H13" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
+								<path d="M5 13V5" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
+							</svg>
+						</span>
+						Volver
+					</a>
+				</button>
+			</ul>
+		</div>
+		<div class="card-body">
+			<div class="row pb-2 pr-2">
+				<div class="col-lg-2">Tipo de documento</div>
+				<div class="col-lg-4">				
+					<ng-select 
+					[(ngModel)]="user.documentTypeId" 
+					name="documentTypeId"
+					[items]="documentTypes"
+					bindLabel="documentTypeDescription"
+					bindValue="documentTypeId"
+					placeholder="Seleccione un tipo de documento"
+					class="ng-select-solid"
+					required>
+				  </ng-select>
+				</div>
+				<div class="col-lg-2">Número de documento</div>
+				<div class="col-lg-4"> <input type="number" [(ngModel)]="user.documentNumber" name="documentNumber" class="form-control form-control-sm" maxlength="20" [readonly]="modificarDoc ? true : false"></div>
+			</div>
+			<div class="row pb-2">
+				<div class="col-lg-2">Nombre</div>
+				<div class="col-lg-4"><input [(ngModel)]="user.name" name="name" class="form-control form-control-sm" maxlength="100"></div>
+				<div class="col-lg-2">Apellido Paterno</div>
+				<div class="col-lg-4"><input [(ngModel)]="user.fathersLastName" name="fathersLastName" class="form-control form-control-sm" maxlength="100"></div>
+			</div>
+			<div class="row pb-2">
+				<div class="col-lg-2">Apellido Materno</div>
+				<div class="col-lg-4"><input [(ngModel)]="user.mothersLastName" name="mothersLastName" class="form-control form-control-sm" maxlength="100"></div>
+				<div class="col-lg-2">Dirección</div>
+				<div class="col-lg-4"><input [(ngModel)]="user.address" name="address" class="form-control form-control-sm" maxlength="100"></div>
+			</div>
+			<div class="row pb-2">
+				<div class="col-lg-2">Departamento</div>
+				<div class="col-lg-4">					
+					<ng-select 
+					[(ngModel)]="user.regionCode" 
+					name="regionCode"
+					[items]="regions"
+					bindLabel="regionDescription"
+					bindValue="regionCode"
+					placeholder="Seleccione un departamento"
+					class="ng-select-solid"
+					(change)="onDepartmentChange()"
+					required>
+				  </ng-select>
+				</div>
+				<div class="col-lg-2">Provincia</div>
+				<div class="col-lg-4">
+					<ng-select 
+					[(ngModel)]="user.provinceCode" 
+					name="provinceCode"
+					[items]="provinces"
+					bindLabel="provinceDescription"
+					bindValue="provinceCode"
+					placeholder="Seleccione una provincia"
+					class="ng-select-solid"
+					(change)="onProvinceChange()"
+					required
+					[disabled]="!user.regionCode">
+				  </ng-select>				
+				</div>
+			</div>
+			<div class="row pb-2">
+				<div class="col-lg-2">Distrito</div>
+				<div class="col-lg-4">
+					<ng-select 
+        [(ngModel)]="user.ubigeoCode" 
+        name="ubigeoCode"
+        [items]="ubigeos"
+        bindLabel="ubigeoDescription"
+        bindValue="ubigeoCode"
+        placeholder="Seleccione un distrito"
+        class="ng-select-solid"
+        required
+        [disabled]="!user.provinceCode">
+      </ng-select>				
+				</div>
+				<div class="col-lg-2">Telefono</div>
+				<div class="col-lg-4"><input type="number" [(ngModel)]="user.phone" name="phone" class="form-control form-control-sm" maxlength="20"></div>
+			</div>
+			<div class="row pb-2">
+				<div class="col-lg-2">Correo</div>
+				<div class="col-lg-4"><input [(ngModel)]="user.email" name="email" class="form-control form-control-sm" maxlength="20"></div>
+				<div class="col-lg-2">Contraseña</div>
+				<div class="col-lg-4"><input type="password" [(ngModel)]="user.password" name="password" class="form-control form-control-sm" maxlength="20"></div>
+			</div>
+		</div>
+	</div>	
+</form>
